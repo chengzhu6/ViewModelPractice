@@ -2,4 +2,8 @@
     <string name="app_name">RoomPractice</string>
     <string name="submit_activity">SubmitActivity</string>
     <string name="view_activity">ViewActivity</string>
+    <string name="name_edit_text_placeholder">please input name</string>
+    <string name="age_edit_text_placeholder">please input age</string>
+    <string name="gender_edit_text_placeholder">please input gender</string>
+    <string name="submit">Submit</string>
 </resources>
