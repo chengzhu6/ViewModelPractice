@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">RoomPractice</string>
+    <string name="submit_activity">SubmitActivity</string>
+    <string name="view_activity">ViewActivity</string>
 </resources>
