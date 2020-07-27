@@ -1,27 +1,23 @@
 package com.thoughtworks.roompractice.common;
 
 import android.app.Application;
-import android.content.Context;
 
 import androidx.room.Room;
 
+import com.thoughtworks.roompractice.dao.AppDatabase;
+
 public class MyApplication extends Application {
     private static final String THOUGHTWORKS_ROOM_DATABASENAME = "com.thoughtworks.room.databasename";
-    private static Context myContext;
+    private LocalDataSource localDataSource;
 
-    private static LocalDataSource localDataSource;
     @Override
     public void onCreate() {
         super.onCreate();
-        myContext = getApplicationContext();
-        localDataSource = Room.databaseBuilder(myContext, LocalDataSource.class, THOUGHTWORKS_ROOM_DATABASENAME).build();
+        AppDatabase appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, THOUGHTWORKS_ROOM_DATABASENAME).build();
+        localDataSource = new LocalDataSource(appDatabase);
     }
 
-    public static LocalDataSource getLocalDataSource() {
+    public LocalDataSource getLocalDataSource() {
         return localDataSource;
-    }
-
-    public static Context getMyContext() {
-        return myContext;
     }
 }

@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.thoughtworks.roompractice.R;
+import com.thoughtworks.roompractice.common.LocalDataSource;
 import com.thoughtworks.roompractice.common.MyApplication;
 import com.thoughtworks.roompractice.common.RxManager;
 import com.thoughtworks.roompractice.entity.Person;
@@ -26,12 +27,15 @@ public class SubmitActivity extends AppCompatActivity {
     private EditText ageEditText;
     private EditText genderEditText;
     private Button submitButton;
+    private LocalDataSource localDataSource;
     private RxManager rxManager = new RxManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit);
+        MyApplication application = (MyApplication)getApplication();
+        localDataSource = application.getLocalDataSource();
         nameEditText = findViewById(R.id.name);
         ageEditText = findViewById(R.id.age);
         genderEditText = findViewById(R.id.gender);
@@ -41,13 +45,13 @@ public class SubmitActivity extends AppCompatActivity {
             if (checkInput(person)) {
                 submitData(person);
             } else {
-                Toast.makeText(MyApplication.getMyContext(), "Input Invalid", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Input Invalid", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void submitData(Person person) {
-        Disposable disposable = MyApplication.getLocalDataSource().personDao().insertPerson(person)
+        Disposable disposable = localDataSource.insertPerson(person)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(disposable1 -> {
                     rxManager.add(disposable1);
@@ -55,7 +59,7 @@ public class SubmitActivity extends AppCompatActivity {
                 })
                 .doFinally(() -> submitButton.setClickable(true))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aLong -> Toast.makeText(MyApplication.getMyContext(), "Insert Success", Toast.LENGTH_SHORT).show());
+                .subscribe(aLong -> Toast.makeText(this, "Insert Success", Toast.LENGTH_SHORT).show());
         rxManager.add(disposable);
     }
 

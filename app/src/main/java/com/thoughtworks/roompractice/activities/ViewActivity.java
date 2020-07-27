@@ -6,6 +6,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.thoughtworks.roompractice.R;
+import com.thoughtworks.roompractice.common.LocalDataSource;
 import com.thoughtworks.roompractice.common.MyApplication;
 import com.thoughtworks.roompractice.common.RxManager;
 import com.thoughtworks.roompractice.entity.Person;
@@ -17,6 +18,7 @@ import io.reactivex.schedulers.Schedulers;
 public class ViewActivity extends AppCompatActivity {
 
     private RxManager rxManager = new RxManager();
+    private LocalDataSource localDataSource;
 
     @Override
     protected void onDestroy() {
@@ -28,12 +30,14 @@ public class ViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view);
+        MyApplication application = (MyApplication) getApplication();
+        localDataSource = application.getLocalDataSource();
         showAllPerson();
     }
 
     private void showAllPerson() {
         TextView personInfoTextView = findViewById(R.id.person_info);
-        Disposable disposable = MyApplication.getLocalDataSource().personDao().getAllPerson()
+        Disposable disposable = localDataSource.getAllPerson()
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(disposable1 -> rxManager.add(disposable1))
                 .observeOn(AndroidSchedulers.mainThread())
