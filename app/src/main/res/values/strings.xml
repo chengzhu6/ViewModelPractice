@@ -7,4 +7,5 @@
     <string name="gender_edit_text_placeholder">please input gender</string>
     <string name="submit">Submit</string>
     <string name="arch_activity">ArchActivity</string>
+    <string name="increase">Increase</string>
 </resources>
