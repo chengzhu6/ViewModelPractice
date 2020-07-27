@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.thoughtworks.roompractice.activities.ArchActivity;
 import com.thoughtworks.roompractice.activities.SubmitActivity;
 import com.thoughtworks.roompractice.activities.ViewActivity;
 
@@ -17,6 +18,13 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.submit_activity).setOnClickListener(view -> createSubmitActivity());
 
         findViewById(R.id.view_activity).setOnClickListener(view -> createViewActivity());
+
+        findViewById(R.id.arch_activity).setOnClickListener(view -> createArchActivity());
+    }
+
+    private void createArchActivity() {
+        Intent intent = new Intent(this, ArchActivity.class);
+        startActivity(intent);
     }
 
     private void createViewActivity() {
